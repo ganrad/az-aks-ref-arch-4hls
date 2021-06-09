@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # --------------------------------------------------------
-# Author: Ganesh Radhakrishnan
+# Author: Ganesh Radhakrishnan@Microsoft
 # Email : ganrad01@gmail.com
 # Date : 06-09-2021
 # Description: Use this script to install tools/utilities etc on the Linux jump-box
