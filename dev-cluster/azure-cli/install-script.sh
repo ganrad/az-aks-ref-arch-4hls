@@ -5,7 +5,6 @@
 #
 # Install pre-requisite tools on the Linux Jump-box.
 #-----------------------------------------------------
-
 set -e
 echo -e "Starting script execution\n"
 
@@ -26,7 +25,6 @@ echo -e "Formatted disk and mounted file system\n"
 # Install Git
 sudo apt-get install -y git
 echo -e "Installed Git\n"
-
 
 # Install Azure CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
