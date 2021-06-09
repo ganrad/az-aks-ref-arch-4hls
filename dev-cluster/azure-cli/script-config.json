@@ -1,22 +1,5 @@
 {
-  "name": "config-vm",
-  "type": "extensions",
-  "location": "[resourceGroup().location]",
-  "apiVersion": "2019-03-01",
-  "tags": {
-    "displayName": "config-vm"
-  },
-  "properties": {
-    "publisher": "Microsoft.Azure.Extensions",
-    "type": "CustomScript",
-    "typeHandlerVersion": "2.1",
-    "autoUpgradeMinorVersion": true,
-    "settings": {
-      },
-    "protectedSettings": {
-      "commandToExecute": "./install-script.sh",
-      "fileUris": ["https://github.com/ganrad/az-aks-ref-arch-4hls/blob/main/dev-cluster/azure-cli/install-script.sh"
-      ]  
-    }
-  }
+  "commandToExecute": "./install-script.sh",
+  "fileUris": ["https://github.com/ganrad/az-aks-ref-arch-4hls/blob/main/dev-cluster/azure-cli/install-script.sh"],
+  "skipDos2Unix": true
 }
