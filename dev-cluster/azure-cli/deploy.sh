@@ -60,11 +60,12 @@ AKS_NODE_OS_DISK_SIZE="60"
 AKS_TAGS="env=lab unit=cloud"
 AKS_NODEPOOL_TAGS="env=lab unit=cloud"
 # (Optional) For cluster with Windows and Linux nodepools, specify Windows user name and password
+# Also, Windows Nodepools require 'Azure CNI' network plugin!
 AKS_WIN_ADM_UNAME="admin"
 AKS_WIN_ADM_PWD="Password2021!"
 AKS_LOAD_BALANCER_SKU="standard"
-# Always overcommit the no. of pods / node
-AKS_MAX_PODS=60
+# Default = 110. It's ok to overcommit the no. of pods / node
+AKS_MAX_PODS=110
 
 #---------------------------------------------------
 # ***** Script
@@ -150,7 +151,10 @@ AKS_SUBNET_ID=$(az network vnet subnet show --resource-group $RESOURCE_GROUP --v
 echo -e "AKS subnet [$AKS_SUBNET_NAME] created\n"
 
 # Provision AKS with latest stable version
+#  --windows-admin-username $AKS_WIN_ADM_UNAME \
+#  --windows-admin-password $AKS_WIN_ADM_PWD \
 az aks create --resource-group $RESOURCE_GROUP \
+  --location $LOCATION \
   --name $AKS_NAME \
   --node-count $AKS_NODE_COUNT \
   --network-plugin $AKS_CNI_PLUGIN \
@@ -168,13 +172,12 @@ az aks create --resource-group $RESOURCE_GROUP \
   --node-osdisk-size $AKS_NODE_OS_DISK_SIZE \
   --tags $AKS_TAGS \
   --nodepool-tags $AKS_NODEPOOL_TAGS \
-  --windows-admin-username $AKS_WIN_ADM_UNAME \
-  --windows-admin-password $AKS_WIN_ADM_PWD \
   --vm-set-type VirtualMachineScaleSets \
   --load-balancer-sku $AKS_LOAD_BALANCER_SKU \
   --max-pods $AKS_MAX_PODS \
   --attach-acr $ACR_NAME \
   --enable-addons http_application_routing,monitoring \
+  --yes \ 
   --zones 1 2 3
 echo -e "AKS [$AKS_NAME] created\n"
 
