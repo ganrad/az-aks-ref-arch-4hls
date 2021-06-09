@@ -1,5 +1,5 @@
 {
-  "commandToExecute": "./install-script.sh",
+  "commandToExecute": "./install-script.sh /opt/local",
   "fileUris": ["https://raw.githubusercontent.com/ganrad/az-aks-ref-arch-4hls/main/dev-cluster/azure-cli/install-script.sh"],
   "skipDos2Unix": true
 }
