@@ -32,5 +32,4 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 # Install Kubernetes CLI (Latest version)
-sudo curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/lin
-ux/amd64/kubectl" -o /usr/local/bin/kubectl && sudo chmod 755 /usr/local/bin/kubectl
+sudo curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && sudo chmod 755 /usr/local/bin/kubectl
