@@ -15,7 +15,7 @@
       },
     "protectedSettings": {
       "commandToExecute": "sh install-script.sh",
-      "fileUris": ["https://github.com/MyProject/Archive/hello.sh"
+      "fileUris": ["https://github.com/ganrad/az-aks-ref-arch-4hls/blob/main/dev-cluster/azure-cli/install-script.sh"
       ]  
     }
   }
