@@ -3,8 +3,6 @@
 set -e
 echo -e "Starting script execution\n"
 
-# Format the extra hard disk and mount the file system on /opt/local
-
 (echo n; echo p; echo 1; echo ; echo ; echo w) | sudo fdisk /dev/sdc
 
 sudo mkfs -t ext4 /dev/sdc1
