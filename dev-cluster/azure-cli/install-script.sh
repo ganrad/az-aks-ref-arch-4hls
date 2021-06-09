@@ -1,10 +1,5 @@
 #!/bin/bash
-#-----------------------------------------------------
-#
-#
-#
-# Install pre-requisite tools on the Linux Jump-box.
-#-----------------------------------------------------
+
 set -e
 echo -e "Starting script execution\n"
 
