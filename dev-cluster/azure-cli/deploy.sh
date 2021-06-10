@@ -9,6 +9,11 @@
 # - Make sure the region the AKS cluster is being deployed to supports availability zones.
 # - Use Azure CNI networking plug-in if the AKS cluster will be used for running windows containers on Windows Server
 #   nodepools.
+# - The 'http' application add-on only supports http endpoints & is not suitable for most test/QA 
+#   environments.  This script deploys the add-on along with the cluster to get an ingress controller 
+#   quickly up and running in the 'dev' environment.  For a more robust installation of the ingress
+#   controller, please follow the AKS docs and install Nginx Ingress Controller after provisioning 
+#   the cluster. 
 #
 #---------------------------------------------------
 # Variables
