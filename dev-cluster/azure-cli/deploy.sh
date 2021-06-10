@@ -2,14 +2,19 @@
 # Author: Ganesh Radhakrishnan@Microsoft
 # Email: ganrad01@gmail.com
 # Date: 06-09-2021
-# Description: Use this script to provision a 'dev' AKS cluster
+# Description: Use this script to provision a 'dev' AKS cluster in a Dev/Sandbox subscription
 # Notes:
+# - Go thru all the variables and specify correct values.  Also, check all the config. param values passed to the
+#   'az aks create ...' command.
+# - Make sure the region the AKS cluster is being deployed to supports availability zones.
+# - Use Azure CNI networking plug-in if the AKS cluster will be used for running windows containers on Windows Server
+#   nodepools.
 #
 #---------------------------------------------------
 # Variables
 #---------------------------------------------------
 #
-LOCATION="westus"
+LOCATION="westus2"
 RESOURCE_GROUP="csu-dev-grts-dc"
 
 # ***** Virtual network and subnets
@@ -17,10 +22,8 @@ VNET_NAME="devVnet"
 VNET_ADDRESS_CIDR="192.168.0.0/16"
 SERVICES_SUBNET_NAME="services-subnet"
 SERVICES_SUBNET_CIDR="192.168.1.0/24"
-BASTION_SUBNET_NAME="AzureBastionSubnet"
-BASTION_SUBNET_CIDR="192.168.2.0/24"
 AKS_SUBNET_NAME="aks-subnet"
-AKS_SUBNET_CIDR="192.168.3.0/24"
+AKS_SUBNET_CIDR="192.168.2.0/24"
 
 # ***** Azure VM's
 JUMP_VM_NAME="k8s-lab-vm"
@@ -29,9 +32,13 @@ JUMP_VM_IMAGE="Debian:debian-10:10:latest"
 JUMP_VM_SIZE="Standard_B2s"
 JUMP_VM_DISK_SIZE=128
 JUMP_VM_ADMIN_UNAME="labuser"
-JUMP_VM_ADMIN_PWD="azk8sLab2021!"
+JUMP_VM_ADMIN_PWD="xyz"
 
-# ***** Bastion host
+# ***** Bastion host resides in 'Hub/Management' VNET
+HUB_VNET_NAME="hubVnet"
+HUB_VNET_ADDRESS_CIDR="192.169.0.0/16"
+BASTION_SUBNET_NAME="AzureBastionSubnet"
+BASTION_SUBNET_CIDR="192.169.1.0/27"
 BASTION_HOST_NAME="bastionHost"
 BASTION_HOST_PIP_NAME="bastionPublicIP"
 
@@ -62,7 +69,7 @@ AKS_NODEPOOL_TAGS="env=lab unit=cloud"
 # (Optional) For cluster with Windows and Linux nodepools, specify Windows user name and password
 # Also, Windows Nodepools require 'Azure CNI' network plugin!
 AKS_WIN_ADM_UNAME="admin"
-AKS_WIN_ADM_PWD="Password2021!"
+AKS_WIN_ADM_PWD="xyz"
 AKS_LOAD_BALANCER_SKU="standard"
 # Default = 110. It's ok to overcommit the no. of pods / node
 AKS_MAX_PODS=110
@@ -84,7 +91,7 @@ az network vnet create --resource-group $RESOURCE_GROUP \
   --subnet-name $SERVICES_SUBNET_NAME \
   --subnet-prefix $SERVICES_SUBNET_CIDR
 VNET_ID=$(az network vnet show --resource-group $RESOURCE_GROUP --name $VNET_NAME --query id -o tsv)
-echo -e "Azure virtual network [$VNET_NAME] created\n"
+echo -e "Azure lab virtual network [$VNET_NAME] created\n"
 
 az network nic create \
   --resource-group $RESOURCE_GROUP \
@@ -107,25 +114,6 @@ az vm create --resource-group $RESOURCE_GROUP \
   --nics $JUMP_VM_NIC_NAME
 echo -e "Linux jump-box [$JUMP_VM_NAME] created\n"
 
-az network public-ip create --resource-group $RESOURCE_GROUP \
-  --name $BASTION_HOST_PIP_NAME \
-  --sku Standard \
-  --location $LOCATION
-echo -e "Bastion host public IP [$BASTION_HOST_PIP_NAME] created\n"
-
-az network vnet subnet create --name $BASTION_SUBNET_NAME \
-  --resource-group $RESOURCE_GROUP \
-  --vnet-name $VNET_NAME \
-  --address-prefixes $BASTION_SUBNET_CIDR
-echo -e "Bastion subnet [$BASTION_SUBNET_NAME] created\n"
-
-az network bastion create --name $BASTION_HOST_NAME \
-  --public-ip-address $BASTION_HOST_PIP_NAME \
-  --resource-group $RESOURCE_GROUP \
-  --vnet-name $VNET_NAME \
-  --location $LOCATION
-echo -e "Bastion service [$BASTION_HOST_NAME] created\n"
-
 az vm extension set \
   --name customScript \
   --resource-group $RESOURCE_GROUP \
@@ -137,6 +125,42 @@ az vm extension list \
   -g $RESOURCE_GROUP \
   --vm-name $JUMP_VM_NAME
 echo -e "Updated jump-box [$JUMP_VM_NAME] with pre-requisite tools - Azure CLI, k8s CLI & Helm CLI\n"
+
+az network public-ip create --resource-group $RESOURCE_GROUP \
+  --name $BASTION_HOST_PIP_NAME \
+  --sku Standard \
+  --location $LOCATION
+echo -e "Bastion host public IP [$BASTION_HOST_PIP_NAME] created\n"
+
+az network vnet create --resource-group $RESOURCE_GROUP \
+  --location $LOCATION \
+  --name $HUB_VNET_NAME \
+  --address-prefixes $HUB_VNET_ADDRESS_CIDR \
+  --subnet-name $BASTION_SUBNET_NAME \
+  --subnet-prefix $BASTION_SUBNET_CIDR
+HUB_VNET_ID=$(az network vnet show --resource-group $RESOURCE_GROUP --name $HUB_VNET_NAME --query id -o tsv)
+echo -e "Azure hub virtual network [$HUB_VNET_NAME] created\n"
+
+az network bastion create --name $BASTION_HOST_NAME \
+  --public-ip-address $BASTION_HOST_PIP_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --vnet-name $HUB_VNET_NAME \
+  --location $LOCATION
+echo -e "Bastion service [$BASTION_HOST_NAME] created\n"
+
+az network vnet peering create --resource-group $RESOURCE_GROUP \
+  --name labToHubVnet \
+  --vnet-name $VNET_NAME \
+  --remote-vnet $HUB_VNET_NAME \
+  --allow-vnet-access
+echo -e "Lab to hub vnet peering [labToHubVnet] created\n"
+
+az network vnet peering create --resource-group $RESOURCE_GROUP \
+  --name hubToLabVnet \
+  --vnet-name $HUB_VNET_NAME \
+  --remote-vnet $VNET_NAME \
+  --allow-vnet-access
+echo -e "Hub to lab vnet peering [hubTolabVnet] created\n"
 
 az acr create --resource-group $RESOURCE_GROUP \
   --name $ACR_NAME \
@@ -150,9 +174,10 @@ az network vnet subnet create --name $AKS_SUBNET_NAME \
 AKS_SUBNET_ID=$(az network vnet subnet show --resource-group $RESOURCE_GROUP --vnet-name $VNET_NAME --name $AKS_SUBNET_NAME --query id -o tsv)
 echo -e "AKS subnet [$AKS_SUBNET_NAME] created\n"
 
-# Provision AKS with latest stable version
-#  --windows-admin-username $AKS_WIN_ADM_UNAME \
-#  --windows-admin-password $AKS_WIN_ADM_PWD \
+# Provision a dev AKS cluster with latest stable version
+# --windows-admin-username $AKS_WIN_ADM_UNAME \
+# --windows-admin-password $AKS_WIN_ADM_PWD \
+# 
 az aks create --resource-group $RESOURCE_GROUP \
   --location $LOCATION \
   --name $AKS_NAME \
@@ -177,7 +202,8 @@ az aks create --resource-group $RESOURCE_GROUP \
   --max-pods $AKS_MAX_PODS \
   --attach-acr $ACR_NAME \
   --enable-addons http_application_routing,monitoring \
-  --yes \ 
+  --generate-ssh-keys \
+  --yes \
   --zones 1 2 3
 echo -e "AKS [$AKS_NAME] created\n"
 
