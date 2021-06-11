@@ -1,5 +1,5 @@
-#  Reference Architectures for Azure Kubernetes Services (AKS) Developoment Cluster
-This repository contains IaaC deployment artifacts for deploying an AKS cluster for development regions/environments..
+#  Azure Kubernetes Service (AKS) reference architecture for new application *Containerization/modernization* projects
+This repository contains IaaC artifacts for deploying an AKS cluster to jump-start new application modernization projects.
 
 **Architecture Blueprint**
 
@@ -31,7 +31,7 @@ This repository contains IaaC deployment artifacts for deploying an AKS cluster 
 
    Login to [Azure Portal](https://portal.azure.com) and verify all Azure resources have been provisioned ok.
 
-   Use [Azure Cloud Shell](https://shell.azure.com) and SSH login to the Linux Jumpbox. Verify Azure CLI, Kubernetes CLI and Helm CLI have been installed on the machine.  See commands below.
+   Use [Azure Cloud Shell](https://shell.azure.com) and SSH login to the Linux Jumpbox. Verify Azure CLI, Kubernetes CLI and Helm CLI have been installed on the Jumpbox (virtual machine).  Refer to the commands below.
 
    ```bash
    # Verify Azure CLI is installed
@@ -43,6 +43,6 @@ This repository contains IaaC deployment artifacts for deploying an AKS cluster 
    # Verify Helm CLI is installed
    $ helm version
    #
-   # (Optional) Any additional tools which you might have installed ...
+   # (Optional) Verify any additional tools which you might have installed ...
    #
    ```
