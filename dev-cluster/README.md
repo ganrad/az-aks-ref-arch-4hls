@@ -1,5 +1,5 @@
-#  Azure Kubernetes Service (AKS) reference architecture for new application *Containerization/modernization* projects
-This repository contains IaaC artifacts for deploying an AKS cluster to jump-start new application modernization projects.
+#  AKS reference architecture for new application *Containerization/modernization* projects
+This repository contains IaaC artifacts for deploying an AKS cluster to quickly jump-start new application modernization projects.
 
 **Architecture Blueprint**
 
