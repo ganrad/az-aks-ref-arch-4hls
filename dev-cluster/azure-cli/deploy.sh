@@ -30,7 +30,7 @@ SERVICES_SUBNET_CIDR="192.168.1.0/24"
 AKS_SUBNET_NAME="aks-subnet"
 AKS_SUBNET_CIDR="192.168.2.0/24"
 
-# ***** Azure VM's
+# ***** Azure Linux/Jump-box VM resides in 'Dev/Lab' (Spoke) VNET
 JUMP_VM_NAME="k8s-lab-vm"
 JUMP_VM_NIC_NAME="k8s-lab-vm-nic"
 JUMP_VM_IMAGE="Debian:debian-10:10:latest"
@@ -39,7 +39,7 @@ JUMP_VM_DISK_SIZE=128
 JUMP_VM_ADMIN_UNAME="labuser"
 JUMP_VM_ADMIN_PWD="xyz"
 
-# ***** Bastion host resides in 'Hub/Management' VNET
+# ***** Bastion host resides in 'Management' (Hub) VNET
 HUB_VNET_NAME="hubVnet"
 HUB_VNET_ADDRESS_CIDR="192.169.0.0/16"
 BASTION_SUBNET_NAME="AzureBastionSubnet"
