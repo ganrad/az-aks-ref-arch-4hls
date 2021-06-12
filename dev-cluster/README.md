@@ -1,4 +1,4 @@
-#  AKS reference architecture for new application *Containerization/modernization* projects
+#  AKS reference architecture for new application *Containerization* (/modernization) projects
 This repository contains IaaC artifacts for deploying an AKS cluster to quickly jump-start new application modernization projects.
 
 **Architecture Blueprint**
@@ -17,7 +17,7 @@ This repository contains IaaC artifacts for deploying an AKS cluster to quickly 
 
 4. Review and update the Linux Jumpbox/VM **tools installation** script
 
-   Review `./dev-cluster/azure-cli/install-script.sh`. (Optional) Add commands to install additional tools/utilities on the Linux VM.
+   Review `./dev-cluster/azure-cli/install-script.sh`. (Optional) Use this script to add commands for installing additional tools/utilities on the Linux VM.
 
 4. Run the deployment script
 
@@ -27,11 +27,11 @@ This repository contains IaaC artifacts for deploying an AKS cluster to quickly 
    $ ./dev-cluster/azure-cli/deploy.sh
    ```
 
-5. Review Azure resources
+5. Review deployed Azure resources
 
    Login to [Azure Portal](https://portal.azure.com) and verify all Azure resources have been provisioned ok.
 
-   Use [Azure Cloud Shell](https://shell.azure.com) and SSH login to the Linux Jumpbox. Verify Azure CLI, Kubernetes CLI and Helm CLI have been installed on the Jumpbox (virtual machine).  Refer to the commands below.
+   Use [Azure Cloud Shell](https://shell.azure.com) and SSH login to the Linux Jumpbox. Verify *Azure CLI, Kubernetes CLI and Helm CLI* have been installed on the Jumpbox (virtual machine).  Refer to the commands below.
 
    ```bash
    # Verify Azure CLI is installed
