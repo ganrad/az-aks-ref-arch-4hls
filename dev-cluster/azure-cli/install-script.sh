@@ -23,6 +23,9 @@ echo "UUID=$UUID	$1	ext4	defaults,nofail	1	2" | sudo tee -a /etc/fstab
 
 echo -e "***** Formatted disk and mounted file system @ [$1] *****\n"
 
+# Update the OS
+sudo apt-get -y update
+
 # Install Git
 sudo apt-get install -y git
 echo -e "***** Installed Git *****\n"
