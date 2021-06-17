@@ -1,0 +1,123 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": ""
+        },
+        "devVnet_name": {
+            "value": ""
+        },
+        "devVnet_addr_cidr": {
+            "value": ""
+        },
+        "devVnet_services_subnet_name": {
+            "value": ""
+        },
+        "devVnet_services_subnet_cidr": {
+            "value": ""
+        },
+        "devVnet_aks_subnet_name": {
+            "value": ""
+        },
+        "devVnet_aks_subnet_cidr": {
+            "value": ""
+        },
+        "jump_vm_name": {
+            "value": ""
+        },
+        "jump_vm_nic_name": {
+            "value": ""
+        },
+        "jump_vm_image": {
+            "value": ""
+        },
+        "jump_vm_size": {
+            "value": ""
+        },
+        "jump_vm_disk_size": {
+            "value": ""
+        },
+        "jump_vm_admin_uname": {
+            "value": ""
+        },
+        "jump_vm_admin_pwd": {
+            "value": ""
+        },
+        "hubVnet_name": {
+            "value": null
+        },
+        "hubVnet_addr_cidr": {
+            "value": null
+        },
+        "hubVnet_bastion_subnet_name": {
+            "value": null
+        },
+        "hubVnet_bastion_subnet_cidr": {
+            "value": null
+        },
+        "bastion_host_name": {
+            "value": null
+        },
+        "bastion_host_pip_name": {
+            "value": null
+        },
+        "acr_name": {
+            "value": null
+        },
+        "acr_sku": {
+            "value": null
+        },
+        "aks_cluster_name": {
+            "value": null
+        },
+        "aks_node_count": {
+            "value": null
+        },
+        "aks_cni_plugin": {
+            "value": null
+        },
+        "aks_service_cidr": {
+            "value": null
+        },
+        "aks_dns_service_ip": {
+            "value": null
+        },
+        "aks_pod_cidr": {
+            "value": null
+        },
+        "aks_node_count_min": {
+            "value": null
+        },
+        "aks_node_count_max": {
+            "value": null
+        },
+        "aks_node_vm_size": {
+            "value": null
+        },
+        "aks_node_osdisk_type": {
+            "value": null
+        },
+        "aks_node_osdisk_size": {
+            "value": null
+        },
+        "aks_tags": {
+            "value": null
+        },
+        "aks_nodepool_tags": {
+            "value": null
+        },
+        "aks_windows_adm_uname": {
+            "value": null
+        },
+        "aks_windows_adm_pwd": {
+            "value": null
+        },
+        "aks_load_balancer_sku": {
+            "value": null
+        },
+        "aks_max_pods": {
+            "value": null
+        }
+    }
+}

@@ -54,7 +54,7 @@ ACR_NAME="k8sdevRegistry01"
 ACR_SKU="Standard"
 
 # ***** Azure Kubernetes Service
-AKS_NAME="k8sdevlab"
+AKS_CLUSTER_NAME="k8sdevlab"
 AKS_NODE_COUNT=3
 AKS_CNI_PLUGIN="kubenet"
 AKS_SERVICE_CIDR="10.0.0.0/16"
@@ -185,7 +185,7 @@ echo -e "AKS subnet [$AKS_SUBNET_NAME] created\n"
 # 
 az aks create --resource-group $RESOURCE_GROUP \
   --location $LOCATION \
-  --name $AKS_NAME \
+  --name $AKS_CLUSTER_NAME \
   --node-count $AKS_NODE_COUNT \
   --network-plugin $AKS_CNI_PLUGIN \
   --service-cidr $AKS_SERVICE_CIDR \
@@ -210,6 +210,6 @@ az aks create --resource-group $RESOURCE_GROUP \
   --generate-ssh-keys \
   --yes \
   --zones 1 2 3
-echo -e "AKS [$AKS_NAME] created\n"
+echo -e "AKS [$AKS_CLUSTER_NAME] created\n"
 
 echo -e "Finished deploying AKS dev cluster environment"
