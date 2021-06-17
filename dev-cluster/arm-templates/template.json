@@ -2,10 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-	    "defaultValue": "westus2",
-            "type": "string"
-        },
         "devVnet_name": {
 	    "defaultValue": "spokeVnet",
             "type": "string"
@@ -181,7 +177,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2020-11-01",
             "name": "[parameters('devVnet_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -225,7 +221,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('devVnet_name'), parameters('devVnet_services_subnet_name'))]"
             ],
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "ipConfigurations": [
                     {
@@ -251,7 +247,7 @@
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2021-03-01",
             "name": "[parameters('jump_vm_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', parameters('jump_vm_nic_name'))]"
             ],
@@ -306,7 +302,7 @@
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2021-03-01",
             "name": "[concat(parameters('jump_vm_name'), '/customScript')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines', parameters('jump_vm_name'))]"
             ],
@@ -329,7 +325,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2020-11-01",
             "name": "[parameters('bastion_host_pip_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard",
                 "tier": "Regional"
@@ -345,7 +341,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2020-11-01",
             "name": "[parameters('hubVnet_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -372,7 +368,7 @@
             "type": "Microsoft.Network/bastionHosts",
             "apiVersion": "2020-11-01",
             "name": "[parameters('bastion_host_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', parameters('bastion_host_pip_name'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('hubVnet_name'), parameters('hubVnet_bastion_subnet_name'))]"
@@ -401,7 +397,7 @@
             "type": "Microsoft.ContainerRegistry/registries",
             "apiVersion": "2020-11-01-preview",
             "name": "[parameters('acr_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard",
                 "tier": "[parameters('acr_sku')]"
@@ -435,7 +431,7 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "apiVersion": "2021-05-01",
             "name": "[parameters('aks_cluster_name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('devVnet_name'), parameters('devVnet_aks_subnet_name'))]",
                 "[resourceId('Microsoft.ContainerRegistry/registries', parameters('acr_name'))]"
