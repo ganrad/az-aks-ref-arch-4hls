@@ -25,9 +25,9 @@ Use one of the options below to deploy the AKS Reference/Blueprint Architecture 
 
    Review `./dev-cluster/azure-cli/install-script.sh`. (Optional) Use this script to add commands for installing additional tools/utilities on the Linux VM.
 
-4. Run the deployment
+4. Provision Azure resources
 
-   Finally, run the deployment shell script to provision Azure resources included in the blueprint architecture.  Refer to the commands in the snippet below.
+   Finally, execute the shell script to provision Azure resources included in the blueprint architecture.  Refer to the command snippet below.
 
    ```bash
    # Run the shell script
@@ -53,9 +53,9 @@ Use one of the options below to deploy the AKS Reference/Blueprint Architecture 
 
    Review `./dev-cluster/azure-cli/install-script.sh`. (Optional) Use this script to add commands for installing additional tools/utilities on the Linux VM.
 
-4. Run the deployment
+4. Provision Azure resources
 
-   Finally, use Azure CLI to provision Azure resources included in the reference architecture.  Refer to the command snippet below.
+   Finally, use Azure CLI to execute the ARM template. This will provision all Azure resources included in the reference architecture.  Refer to the command snippet below.
 
    ```bash
    # Remember to substitute correct values for parameters (exclude angle '<', '>' brackets!)
