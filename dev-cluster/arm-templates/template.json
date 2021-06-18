@@ -114,6 +114,10 @@
 	    "defaultValue": "kubenet",
             "type": "string"
         },
+	"aks_outbound_ips": {
+	    "defaultValue": "1",
+	    "type": "string"
+	},
         "aks_service_cidr": {
 	    "defaultValue": "10.0.0.0/16",
             "type": "string"
@@ -147,12 +151,18 @@
             "type": "string"
         },
         "aks_tags": {
-	    "defaultValue": "env=lab unit=cloud",
-            "type": "string"
+	    "defaultValue": {
+	       "env": "lab",
+	       "unit": "cloud"
+	    },
+            "type": "object"
         },
         "aks_nodepool_tags": {
-	    "defaultValue": "env=lab unit=cloud",
-            "type": "string"
+	    "defaultValue": {
+	       "env": "lab",
+	       "unit": "cloud"
+	    },
+            "type": "object"
         },
         "aks_windows_adm_uname": {
 	    "defaultValue": "winadmin",
@@ -164,6 +174,10 @@
         },
         "aks_load_balancer_sku": {
 	    "defaultValue": "standard",
+            "type": "string"
+        },
+        "aks_outbound_type": {
+	    "defaultValue": "loadBalancer",
             "type": "string"
         },
         "aks_max_pods": {
@@ -436,10 +450,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('devVnet_name'), parameters('devVnet_aks_subnet_name'))]",
                 "[resourceId('Microsoft.ContainerRegistry/registries', parameters('acr_name'))]"
             ],
-            "tags": {
-                "env": "lab",
-                "unit": "cloud"
-            },
+            "tags": "[parameters('aks_tags')]",
             "sku": {
                 "name": "Basic",
                 "tier": "Free"
@@ -448,7 +459,7 @@
 	       "type": "SystemAssigned"
 	    },
             "properties": {
-		"dnsPrefix": "k8slab00",
+		"dnsPrefix": "[parameters('aks_dns_prefix')]",
                 "agentPoolProfiles": [
                     {
                         "name": "nodepool1",
@@ -469,10 +480,7 @@
                         "minCount": "[int(parameters('aks_node_count_min'))]",
                         "enableAutoScaling": true,
                         "enableNodePublicIP": false,
-                        "tags": {
-                            "env": "lab",
-                            "unit": "cloud"
-                        },
+                        "tags": "[parameters('aks_nodepool_tags')]",
                         "nodeLabels": {},
                         "mode": "System",
                         "enableEncryptionAtHost": false,
@@ -488,18 +496,18 @@
                 },
                 "enableRBAC": true,
                 "networkProfile": {
-                    "networkPlugin": "kubenet",
-                    "loadBalancerSku": "Standard",
+                    "networkPlugin": "[parameters('aks_cni_plugin')]",
+                    "loadBalancerSku": "[parameters('aks_load_balancer_sku')]",
                     "loadBalancerProfile": {
                         "managedOutboundIPs": {
-                            "count": 1
+                            "count": "[int(parameters('aks_outbound_ips'))]"
                         }
                     },
                     "podCidr": "[parameters('aks_pod_cidr')]",
                     "serviceCidr": "[parameters('aks_service_cidr')]",
                     "dnsServiceIP": "[parameters('aks_dns_service_ip')]",
                     "dockerBridgeCidr": "172.17.0.1/16",
-                    "outboundType": "loadBalancer"
+                    "outboundType": "[parameters('aks_outbound_type')]"
                 },
                 "autoScalerProfile": {
                     "balance-similar-node-groups": "false",
@@ -520,43 +528,6 @@
                     "skip-nodes-with-local-storage": "false",
                     "skip-nodes-with-system-pods": "true"
                 }
-            }
-        },
-        {
-            "type": "Microsoft.ContainerService/managedClusters/agentPools",
-            "apiVersion": "2021-05-01",
-            "name": "[concat(parameters('aks_cluster_name'), '/nodepool1')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aks_cluster_name'))]"
-            ],
-            "properties": {
-                "count": "[int(parameters('aks_node_count'))]",
-                "vmSize": "[parameters('aks_node_vm_size')]",
-                "osDiskSizeGB": "[int(parameters('aks_node_osdisk_size'))]",
-                "osDiskType": "[parameters('aks_node_osdisk_type')]",
-                "kubeletDiskType": "OS",
-                "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('devVnet_name'), parameters('devVnet_aks_subnet_name'))]",
-                "maxPods": "[int(parameters('aks_max_pods'))]",
-                "type": "VirtualMachineScaleSets",
-                "availabilityZones": [
-                    "1",
-                    "2",
-                    "3"
-                ],
-                "maxCount": "[int(parameters('aks_node_count_max'))]",
-                "minCount": "[int(parameters('aks_node_count_min'))]",
-                "enableAutoScaling": true,
-                "enableNodePublicIP": false,
-                "tags": {
-                    "env": "lab",
-                    "unit": "cloud"
-                },
-                "nodeLabels": {},
-                "mode": "System",
-                "enableEncryptionAtHost": false,
-                "osType": "Linux",
-                "osSKU": "Ubuntu",
-                "enableFIPS": false
             }
         },
         {
