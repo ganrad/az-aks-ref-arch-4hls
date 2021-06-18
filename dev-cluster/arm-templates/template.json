@@ -535,7 +535,6 @@
             "apiVersion": "2020-11-01",
             "name": "[concat(parameters('devVnet_name'), '/labToHubVnet')]",
             "dependsOn": [
-                "[resourceId('Microsoft.ContainerService/managedClusters/agentPools', parameters('aks_cluster_name'), 'nodepool1')]",
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('devVnet_name'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('hubVnet_name'))]"
             ],
