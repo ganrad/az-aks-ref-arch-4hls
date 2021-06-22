@@ -63,6 +63,13 @@ param aks_windows_adm_pwd string = '${uniqueString(resourceGroup().id, 'winadmin
 param aks_load_balancer_sku string = 'standard'
 param aks_max_pods int = 110
 
+// Variables
+var aks_addons = {
+  httpApplicationRouting: {
+    enabled: true
+  }
+}
+
 // Resources
 resource spokeVirtualNetwork 'Microsoft.Network/virtualNetworks@2020-11-01' = {
   name: devVnet_name
@@ -276,7 +283,7 @@ resource acrRegistry 'Microsoft.ContainerRegistry/registries@2020-11-01-preview'
   }
 }
 
-module aksModule './modules/aks_deploy.bicep' = {
+module aksModule '../../bicep/modules/aks_deploy.bicep' = {
   name: 'aksDeploy'
   params: {
     location: resourceGroup().location
