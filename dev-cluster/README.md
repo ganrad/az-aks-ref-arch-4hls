@@ -54,7 +54,7 @@ Use one of the options below to deploy the AKS Reference/Blueprint Architecture 
    #
    # Execute the Bicep script
    #
-   $ az deployment group create --resource-group <Resource-Group-Name> --template-file main.bicep [ --parameters jump_vm_admin_pwd='vm-password' param2=value2 ...]
+   $ az deployment group create --resource-group <Resource-Group-Name> --template-file main.bicep [--parameters jump_vm_admin_pwd='vm-password' param2=value2 ...]
    #
    ```
 
