@@ -65,7 +65,7 @@ param aks_authorized_ips array = []
 param aks_nodepool_linux_profile object = {}
 // Imp: Windows nodepools can only be added when using azure CNI plug-in
 param aks_nodepool_windows_profile object = {}
-param aks_nodepool_addon_profile object = {}
+param aks_addon_profiles object = {}
 
 // Resources
 resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-03-01' = {
@@ -110,7 +110,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-03-01' = {
         enableFIPS: false
       }
     ]
-    addonProfiles: empty(aks_nodepool_addon_profile) ? json('null') : aks_nodepool_addon_profile
+    addonProfiles: empty(aks_addon_profiles) ? json('null') : aks_addon_profiles
     networkProfile: {
       networkPlugin: aks_cni_plugin
       networkPolicy: empty(aks_network_policy) ? json('null') : aks_network_policy
