@@ -48,7 +48,7 @@ Use one of the options below to deploy the AKS Reference/Blueprint Architecture 
    $ cd ./dev-cluster/bicep
    #
    # Create a resource group to provision all resources
-   # Location ~ Azure location should match the location where the resources will be deloyed
+   # Location ~ Azure location should match the location where the resources will be deployed
    #
    $ az group create --name <Resource-Group-Name> -l <Location>
    #
@@ -88,7 +88,7 @@ Use one of the options below to deploy the AKS Reference/Blueprint Architecture 
    $ cd ./dev-cluster/arm-templates
    #
    # Create a resource group to provision all resources
-   # Location ~ Azure location should match the location where the resources will be deloyed
+   # Location ~ Azure location should match the location where the resources will be deployed
    #
    $ az group create --name <Resource-Group-Name> -l <Location>
    #

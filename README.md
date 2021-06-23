@@ -1,7 +1,7 @@
 #  Azure Kubernetes Service (AKS) reference architectures
 The main goal of this repository is to compile infrastructure as code (IaaC) scripts and document the steps for automating the installation and configuration of proven AKS reference architectures (aka Blueprints).  The reference architecture implementations provide a secure, reliable and highly available container platform for running mission critical applications and are primarily targeted towards Healthcare customers.
 
-Each sub-project described below contains IaaC artifacts (shell scripts, ARM templates) for automating the provisioning and configuration of the respective AKS reference (/blueprint) architecture.
+Each sub-project described below contains IaaC artifacts (Bicep script, ARM template, Shell script) for automating the provisioning and configuration of the respective AKS reference (/blueprint) architecture.
 
 - [Deploy an AKS cluster to jump-start new application modernization projects](./dev-cluster)
   This sub-project describes the steps for deploying an AKS cluster in a sandbox Azure subscription. Use the automation scripts to quickly standup a fully functional Kubernetes cluster for implementing **MVPs/PoCs/Pilots** and jump-start application containerization / modernization projects.
